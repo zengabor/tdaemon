@@ -94,11 +94,18 @@ You can change this quota by using the ``--size-max`` argument. For example:
 With this argument, the programm will only ask for your permission to proceed
 with a total archive of more than 100MB.
 
+#### Ignore directories
+
+If you have a large sub-directory that will slow the scanning and contains no 
+tests, you can use the ``--ignore-dir`` argument, which uses a comma-separated
+list of directories to not watch.
+    
+    $ tdaemon --ignore-dirs=docs
+    $ tdaemon --ignore-dirs=docs,build
+
 ### TODO
 
     [ ] Extend the test utilities to other languages
-    [ ] Add an "ignore" option to ignore other files (logs, sqlite database,
-        image files, etc)
     [ ] Check other pythonic dependencies (django, py.test). Won't be possible
         for non-python test-programs, though
 
@@ -122,3 +129,5 @@ with a total archive of more than 100MB.
         commands, but the only way to do so is to send arguments rather than the
         whole external command. Tests must pass, though (no `&`, for example)
     [X] Install tdaemon as a script.
+    [X] Add an "ignore" option to ignore other files (logs, sqlite database,
+        image files, etc)

@@ -63,14 +63,18 @@ class Watcher(object):
     file_list = {}
     debug = False
 
-    def __init__(self, file_path, test_program, debug=False, custom_args=''):
+    def __init__(self, file_path, test_program, debug=False, custom_args='', 
+        ignore_dirs=None):
         # Safe filter
         custom_args = escapearg(custom_args)
 
         self.file_path = file_path
+        self.ignore_dirs = list(IGNORE_DIRS)
         self.file_list = self.walk(file_path)
         self.test_program = test_program
         self.custom_args = custom_args
+        if ignore_dirs:
+            self.ignore_dirs.extend([d for d in ignore_dirs.split(',')])
 
         # check configuration
         self.check_configuration(file_path, test_program, custom_args)
@@ -146,7 +150,7 @@ class Watcher(object):
                 return False
         parts = path.split(os.path.sep)
         for part in parts:
-            if part in IGNORE_DIRS:
+            if part in self.ignore_dirs:
                 return False
         return True
 
@@ -154,7 +158,7 @@ class Watcher(object):
         """Walks the walk. nah, seriously: reads the file and stores a hashkey
         corresponding to its content."""
         for root, dirs, files in os.walk(top, topdown=False):
-            if os.path.basename(root) in IGNORE_DIRS:
+            if os.path.basename(root) in self.ignore_dirs:
                 # Do not dig in ignored dirs
                 continue
 
@@ -167,7 +171,7 @@ class Watcher(object):
                         hashcode = hashlib.sha224(content).hexdigest()
                         file_list[full_path] = hashcode
             for name in dirs:
-                if name not in IGNORE_DIRS:
+                if name not in self.ignore_dirs:
                     self.walk(os.path.join(root, name), file_list)
         return file_list
 
@@ -226,6 +230,9 @@ def main(prog_args=None):
     parser.add_option('--custom-args', dest='custom_args', default='',
         type="str",
         help="Defines custom arguments to pass after the test program command")
+    parser.add_option('--ignore-dirs', dest='ignore_dirs', default='',
+        type="str",
+        help="Defines directories to ignore.  Use a comma-separated list.")
 
     opt, args = parser.parse_args(prog_args)
 
@@ -235,7 +242,8 @@ def main(prog_args=None):
         path = '.'
 
     try:
-        watcher = Watcher(path, opt.test_program, opt.debug, opt.custom_args)
+        watcher = Watcher(path, opt.test_program, opt.debug, opt.custom_args, 
+            opt.ignore_dirs)
         watcher_file_size = watcher.file_sizes()
         if watcher_file_size > opt.size_max:
             message =  "It looks like the total file size (%dMb) is larger  than the `max size` option (%dMb).\nThis may slow down the file comparison process, and thus the daemon performances.\nDo you wish to continue? [y/N] " % (watcher_file_size, opt.size_max)
