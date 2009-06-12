@@ -253,6 +253,9 @@ def main(prog_args=None):
 
         print "Ready to watch file changes..."
         watcher.loop()
+    except (KeyboardInterrupt, SystemExit):
+        # Ignore when you exit via Crtl-C
+        pass
     except Exception, msg:
         print msg
 
