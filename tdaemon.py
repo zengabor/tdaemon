@@ -70,11 +70,11 @@ class Watcher(object):
 
         self.file_path = file_path
         self.ignore_dirs = list(IGNORE_DIRS)
+        if ignore_dirs:
+            self.ignore_dirs.extend([d for d in ignore_dirs.split(',')])
         self.file_list = self.walk(file_path)
         self.test_program = test_program
         self.custom_args = custom_args
-        if ignore_dirs:
-            self.ignore_dirs.extend([d for d in ignore_dirs.split(',')])
 
         # check configuration
         self.check_configuration(file_path, test_program, custom_args)
