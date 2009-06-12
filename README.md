@@ -5,13 +5,24 @@ changes (the content is edited), it runs the tests.
 
 ### Installation
 
-Put the tdaemon somewhere where it's executable.
+If you are on Windows, you will have to add the <python_install_dir>/Scripts 
+directory.
+
+#### From Source
+
+Download the source and run:
+
+    $ python setup.py install
+    
+#### With easy_install
+
+    $ easy_install tdaemon
 
 ### Basic Usage
 
 Simply run this:
 
-    $ python /path/to/tdaemon.py
+    $ tdaemon
 
 The daemon starts watching the current directory and subdirectories. As soon as
 one file changes, the daemon runs ``nosetests`` and you may watch the result.
@@ -23,14 +34,14 @@ one file changes, the daemon runs ``nosetests`` and you may watch the result.
 If you want to run the daemon from another directory than your current
 directory, just run:
 
-    $ tdaemon.py /path/to/your/project
+    $ tdaemon /path/to/your/project
 
 
 #### Change the test program
 
 For example, try out ``py.test``:
 
-    $ tdaemon.py --test-program=py
+    $ tdaemon --test-program=py
 
 ``Nosetests`` is the default test program, but you may use others.
 
@@ -55,7 +66,7 @@ part of your project, or using a specific setting. If you want to append
 specific arguments to your command line, use the ``--custom-args`` parameter
 like this::
 
-    $ tdaemon.py --custom-args="myapp.MyTestClass" --test-program=django
+    $ tdaemon --custom-args="myapp.MyTestClass" --test-program=django
 
 The above command will execute the following command in the current directory:
 
@@ -110,4 +121,4 @@ with a total archive of more than 100MB.
     [X] Add an "custom argument" option. The user may want to run specific
         commands, but the only way to do so is to send arguments rather than the
         whole external command. Tests must pass, though (no `&`, for example)
-
+    [X] Install tdaemon as a script.
