@@ -6,6 +6,8 @@ except ImportError:
 setup(
     name = "tdaemon",
     version = "0.1.0",
+    maintainer = "John Paulett",
+    maintainer_email = "john@7oars.com",
     description = "Test Daemon",
     long_description = "The test daemon watches the content of files in a directory and if any of them changes (the content is edited), it runs the tests.",
     url = "http://github.com/brunobord/tdaemon",
