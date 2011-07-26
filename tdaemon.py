@@ -125,7 +125,11 @@ class Watcher(object):
         if self.test_program in ('nose', 'nosetests'):
             cmd = "nosetests %s" % self.file_path
         elif self.test_program == 'django':
-            cmd = "python %s/manage.py test" % self.file_path
+            executable = "%s/manage.py" % self.file_path
+            if os.path.exists(executable):
+                cmd = "python %s/manage.py test" % self.file_path
+            else:
+                cmd = "django-admin.py test"
         elif self.test_program == 'py':
             cmd = 'py.test %s' % self.file_path
         elif self.test_program == 'symfony':
