@@ -5,7 +5,7 @@ except ImportError:
     
 setup(
     name = "tdaemon",
-    version = "0.1.0",
+    version = "0.1.1",
     maintainer = "John Paulett",
     maintainer_email = "john@7oars.com",
     description = "Test Daemon",
