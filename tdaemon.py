@@ -28,15 +28,12 @@ IMPLEMENTED_TEST_PROGRAMS = ('nose', 'nosetests', 'django', 'py', 'symfony',
 # -------- Exceptions
 class InvalidTestProgram(Exception):
     """Raised as soon as an unexpected test program is chosen"""
-    pass
 
 class InvalidFilePath(Exception):
     """Raised if the path to project/module is unknown/missing."""
-    pass
 
 class CancelDueToUserRequest(Exception):
     """Raised when user wants to cancel execution"""
-    pass
 
 # -------- Utils
 def ask(message='Are you sure? [y/N]'):
@@ -193,15 +190,12 @@ class Watcher(object):
             elif key not in list2:
                 print key
 
-    def run(self, cmd):
-        """Runs the appropriate command"""
-        print datetime.datetime.now()
-        output = commands.getoutput(cmd)
-        print output
-
     def run_tests(self):
         """Execute tests"""
-        self.run(self.cmd)
+        print datetime.datetime.now()        
+        # output = commands.getoutput(cmd)
+        # print output
+        os.system(cmd) # this makes colored output possible
 
     def loop(self):
         """Main loop daemon."""
