@@ -195,7 +195,7 @@ class Watcher(object):
         print datetime.datetime.now()        
         # output = commands.getoutput(cmd)
         # print output
-        os.system(cmd) # this makes colored output possible
+        os.system(self.cmd) # this makes colored output possible
 
     def loop(self):
         """Main loop daemon."""
